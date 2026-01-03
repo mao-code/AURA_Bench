@@ -1,0 +1,152 @@
+# AuthBench Evaluation & Training
+
+This folder hosts standalone scripts to score and fine-tune embedding models on the
+processed AuthBench benchmark produced by `authbench/processing`. It assumes the
+benchmark layout of `train|dev|test/{candidates,queries,ground_truth}.jsonl` created
+by `build_benchmark.py` + `postprocess.py`.
+
+## What is evaluated?
+
+- **Authorship Representation (retrieval)**  
+  Queries and candidate documents are embedded, similarities are ranked, and metrics are
+  derived from those ranks. Uses cosine similarity by default or max-sim when
+  `--late-interaction` is enabled. Metrics: `Recall@K`, `Success@K`, `nDCG@K`, `MRR`.
+
+- **Authorship Attribution (verification)**  
+  Full similarity scores between every query/candidate pair are contrasted against the
+  binary ground-truth match matrix to compute **EER** (threshold-free operating point
+  where false-accept = false-reject). Negatives are sampled per query by default for
+  tractable memory, or `--negative-strategy all` uses every non-positive pair.
+
+## Key modules
+
+- `data.py` – Loads processed splits and exposes helper datasets for training.
+- `embedder.py` – Minimal HF embedding wrapper with configurable pooling and token-level
+  outputs for late interaction.
+- `metrics.py` – Ranking metrics and EER computation.
+- `evaluators.py` – Task-specific evaluation routines that work with any HF embedding.
+- `runner.py` – CLI to score one or many models from `utilities/model_registry.py`.
+- `train.py` – Contrastive fine-tuning script with in-batch negatives and periodic eval.
+
+## Paths
+
+The CLI defaults to `authbench/processing/outputs/official_ttl300k_cap10M_sf10k_postprocessed`
+(relative to the repo root). Override with `--dataset-root` if your processed benchmark
+lives elsewhere.
+
+## Running evaluations
+
+Evaluate a single model on the test split:
+
+```bash
+python -m authbench.eval.runner \
+  --split test \
+  --models e5-large-v2 \
+  --batch-size 32 \
+  --dataset-root /path/to/outputs/official_ttl300k_cap10M_sf10k_postprocessed
+```
+
+Evaluate every registry model on dev with fewer candidates/queries for a quick sweep:
+
+```bash
+python -m authbench.eval.runner \
+  --split dev \
+  --all-models \
+  --max-candidates 20000 --max-queries 2000 \
+  --output-json eval_dev.json
+```
+
+Enable late interaction (token-level max-sim); only feasible on smaller subsets because
+it materializes token embeddings:
+
+```bash
+python -m authbench.eval.runner \
+  --models bge-m3 \
+  --late-interaction \
+  --max-candidates 4000 --max-queries 1000
+```
+
+Topic-matched candidate pools (topic-leakage control) can be enabled with
+`--candidate-pool topic`. Use `--max-topic-candidates` to cap pool sizes with
+deterministic sampling:
+
+```bash
+python -m authbench.eval.runner \
+  --split test \
+  --models e5-large-v2 \
+  --candidate-pool topic \
+  --max-topic-candidates 5000
+```
+
+TF-IDF baseline (cosine on TF-IDF vectors) is available via the dedicated runner:
+
+```bash
+python -m authbench.eval.tfidf_runner \
+  --dataset-root /path/to/outputs/official_ttl300k_cap10M_sf10k_postprocessed \
+  --split test \
+  --output-json eval/results/tfidf.json
+```
+
+Export metric tables from JSON results:
+
+```bash
+python -m authbench.eval.export_results \
+  --results-dir eval/results \
+  --output-dir eval/results/analysis \
+  --metrics success@10 recall@10 ndcg@10 eer@10
+```
+
+For a full topic-leakage sweep (topic-matched pools + TF-IDF baseline + CSV exports),
+see `eval/scripts/run_topic_leakage.sh`.
+
+Both `runner.py` and `train.py` emit fine-grained breakdowns by language, genre, and
+token-length bucket under `by_language`, `by_genre`, and `by_length_bucket` in addition
+to the overall metrics. These are written to stdout, any `--output-json`, optional
+JSONL logs, and W&B (if enabled) for downstream analysis.
+
+## Training + evaluation
+
+`train.py` fine-tunes an embedding model with an in-batch InfoNCE-style loss over
+(query, positive-candidate) pairs derived from `ground_truth.jsonl`. Evaluation runs at
+step 0, every `--eval-every` steps, and at the end on both dev and test.
+
+Example: fine-tune and evaluate `bge-base-en-v1.5` with periodic metrics:
+
+```bash
+python -m authbench.eval.train \
+  --model bge-base-en-v1.5 \
+  --batch-size 16 \
+  --epochs 1 \
+  --eval-every 500 \
+  --dataset-root /path/to/outputs/official_ttl300k_cap10M_sf10k_postprocessed \
+  --output-dir checkpoints/bge-base \
+  --log-file logs/bge_base.jsonl
+```
+
+Useful flags:
+- `--query-prefix/--doc-prefix` to add model-specific prompts (e.g., E5's `query:` /
+  `passage:`).
+- `--max-eval-queries/--max-eval-candidates` to cap evaluation size.
+- `--negatives-per-query` and `--negative-strategy` to balance attribution EER runtime.
+- `--trust-remote-code` to pre-approve HF repos that ship custom modeling code
+  (scripts will also auto-retry with `trust_remote_code=True` when transformers
+  explicitly requests it; disable that fallback with `--no-auto-trust-remote-code`).
+- Some checkpoints only publish PyTorch `.bin` weights. Transformers now blocks
+  unsafe `torch.load` on torch<2.6; either upgrade torch or install `safetensors`
+  so the loaders can grab `.safetensors` weights when available.
+- `--late-interaction` for max-sim scoring during eval (memory-heavy; pair with caps).
+- `--candidate-chunk-size` to control candidate token batch size during late interaction.
+- Late interaction pads to `--max-length` to keep token tensors alignable; lower the
+  length or subset queries/candidates if memory spikes.
+- `--wandb-project` (runner/train) to push metrics to Weights & Biases; combine with
+  `--wandb-run-name/--wandb-entity/--wandb-tags` as needed.
+- `--eval-fraction-epoch` to trigger evals at a fraction of each epoch (e.g., 0.5 for mid-epoch) and
+  `--eval-every-epoch` to always evaluate at epoch boundaries.
+
+Scripts:
+- `eval/scripts/train_model.sh <model-name>` – run one model for 1 epoch with mid-epoch eval (defaults configurable via env). Run from the repo root (`authbench`); the script sets `PYTHONPATH=$(pwd)` so package imports resolve.
+- `eval/scripts/train_all_models.sh` – loop over every registry model with the same settings. Run from the repo root; `PYTHONPATH` is set for you.
+- `eval/scripts/eval_all_models.sh` – evaluate a broad set of embedding models (or override via `MODELS="m1 m2"`) and store per-model JSON outputs with fine-grained breakdowns for leaderboard building.
+
+Checkpoints are saved under `--output-dir/<model>` with a `training_summary.json` that
+captures the final dev/test metrics for quick comparison to pre-trained baselines.

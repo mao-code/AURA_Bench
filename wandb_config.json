@@ -1,0 +1,15 @@
+{
+  "project": "authbench",
+  "entity": null,
+  "group": "authbench",
+  "job_type": "evaluation",
+  "tags": [
+    "authbench",
+    "evaluation"
+  ],
+  "mode": "online",
+  "notes": "Default Weights & Biases settings for AuthBench evaluation runs.",
+  "config": {
+    "source": "authbench/scripts"
+  }
+}

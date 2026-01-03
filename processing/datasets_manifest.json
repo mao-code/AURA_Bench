@@ -1,0 +1,137 @@
+{
+  "datasets": [
+    {
+      "name": "exorde_week1",
+      "source": "exorde",
+      "loader": "hf_streaming",
+      "split": "train",
+      "extra": { "hf_dataset": "Exorde/exorde-social-media-december-2024-week1" },
+      "text_field": "original_text",
+      "author_field": "author_hash",
+      "lang_field": "language",
+      "genre_field": "primary_theme"
+    },
+    {
+      "name": "babel_briefings",
+      "source": "babel_briefings",
+      "loader": "hf_streaming",
+      "split": "train",
+      "extra": { "hf_dataset": "felixludos/babel-briefings" },
+      "text_field": "description",
+      "author_field": "author",
+      "lang_field": "language",
+      "genre_field": "category"
+    },
+    {
+      "name": "amazon_reviews_multi",
+      "source": "amazon_multi",
+      "loader": "tsv",
+      "path": "raw_analysis/outputs/amazon_reviews_multi_raw",
+      "text_field": "review_body",
+      "author_field": "reviewer_id",
+      "lang_field": "language",
+      "genre_field": "product_category"
+    },
+    {
+      "name": "blog_authorship",
+      "source": "blog_authorship",
+      "loader": "blog_authorship",
+      "static_lang": "en",
+      "extra": {
+        "hf_repo": "barilan/blog_authorship_corpus",
+        "filename": "data/blogs.zip"
+      }
+    },
+    {
+      "name": "arxiv_snapshot",
+      "source": "arxiv",
+      "loader": "jsonl",
+      "path": "raw_analysis/outputs/arxiv_raw/arxiv-metadata-oai-snapshot.json",
+      "text_field": "abstract",
+      "author_field": "authors",
+      "raw_id_field": "id",
+      "static_lang": "en",
+      "genre_field": "categories",
+      "preprocess_row": "arxiv_first_author"
+    },
+    {
+      "name": "xiaohongshu",
+      "source": "xiaohongshu",
+      "loader": "csv",
+      "path": "raw_analysis/outputs/xiaohongshu_raw",
+      "text_field": "content",
+      "author_field": "user_id",
+      "static_lang": "zh"
+    },
+    {
+      "name": "douban_reviews",
+      "source": "douban",
+      "loader": "tsv",
+      "path": "raw_analysis/outputs/douban_raw",
+      "text_field": "comment",
+      "author_field": "user_id",
+      "static_lang": "zh"
+    },
+    {
+      "name": "hindi_discourse",
+      "source": "hindi_discourse",
+      "loader": "jsonl",
+      "path": "raw_analysis/outputs/hindi_discourse/discourse_dataset.json",
+      "text_field": "Sentence",
+      "author_field": "author",
+      "genre_field": "Discourse Mode",
+      "static_lang": "hi",
+      "preprocess_row": "hindi_story_author"
+    },
+    {
+      "name": "spanish_pd_books",
+      "source": "spanish_pd_books",
+      "loader": "hf_streaming",
+      "split": "train",
+      "extra": { "hf_dataset": "PleIAs/Spanish-PD-Books" },
+      "text_field": "text",
+      "author_field": "creator",
+      "static_lang": "es"
+    },
+    {
+      "name": "french_pd_books",
+      "source": "french_pd_books",
+      "loader": "hf_streaming",
+      "split": "train",
+      "extra": { "hf_dataset": "PleIAs/French-PD-Books" },
+      "text_field": "complete_text",
+      "author_field": "author",
+      "static_lang": "fr"
+    },
+    {
+      "name": "arabic_poetry",
+      "source": "arabic_poetry",
+      "loader": "csv",
+      "path": "raw_analysis/outputs/arabic_poetry_raw",
+      "text_field": "poem_text",
+      "author_field": "poet_name",
+      "genre_field": "poem_tags",
+      "static_lang": "ar"
+    },
+    {
+      "name": "russian_pd",
+      "source": "russian_pd",
+      "loader": "hf_streaming",
+      "split": "train",
+      "extra": { "hf_dataset": "PleIAs/Russian-PD" },
+      "text_field": "text",
+      "author_field": "creator",
+      "static_lang": "ru"
+    },
+    {
+      "name": "german_pd",
+      "source": "german_pd",
+      "loader": "hf_streaming",
+      "split": "train",
+      "extra": { "hf_dataset": "PleIAs/German-PD" },
+      "text_field": "text",
+      "author_field": "creator",
+      "static_lang": "de"
+    }
+  ]
+}
