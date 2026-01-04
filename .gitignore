@@ -11,6 +11,6 @@ venv/
 .DS_Store
 .ipynb_checkpoints/
 
-raw_analysis/*/data/*
-*/outputs/*
+# raw_analysis/*/data/*
+# */outputs/*
 wandb/
