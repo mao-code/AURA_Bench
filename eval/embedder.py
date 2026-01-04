@@ -31,6 +31,7 @@ class HuggingFaceEmbedder:
         model_name_or_path: str,
         device: Optional[str] = None,
         max_length: int = 512,
+        no_truncation: bool = False,
         pooling: str = "mean",
         normalize: bool = True,
         torch_dtype: Optional[str] = None,
@@ -43,6 +44,7 @@ class HuggingFaceEmbedder:
         self.model_name_or_path = model_name_or_path
         self.device = torch.device(device or ("cuda" if torch.cuda.is_available() else "cpu"))
         self.max_length = max_length
+        self.no_truncation = no_truncation
         self.pooling = pooling
         self.normalize = normalize
         self.torch_dtype = getattr(torch, torch_dtype) if isinstance(torch_dtype, str) else torch_dtype
@@ -99,6 +101,17 @@ class HuggingFaceEmbedder:
             return [prefix + text for text in texts]
         return list(texts)
 
+    def _resolve_model_max_length(self) -> Optional[int]:
+        candidates: List[int] = []
+        tokenizer_max = getattr(self.tokenizer, "model_max_length", None)
+        if tokenizer_max and tokenizer_max < 1_000_000:
+            candidates.append(int(tokenizer_max))
+        for attr in ("max_position_embeddings", "max_seq_len", "n_positions"):
+            value = getattr(self.model.config, attr, None)
+            if value:
+                candidates.append(int(value))
+        return min(candidates) if candidates else None
+
     def encode_texts(
         self,
         texts: Sequence[str],
@@ -125,12 +138,19 @@ class HuggingFaceEmbedder:
         with torch.inference_mode():
             for batch in iterator:
                 prefixed = self._apply_prefix(batch, prefix)
-                padding_strategy = "max_length" if return_tokens else True
+                if self.no_truncation:
+                    padding_strategy = True
+                    max_length = self._resolve_model_max_length()
+                    truncation = max_length is not None
+                else:
+                    padding_strategy = "max_length" if return_tokens else True
+                    truncation = True
+                    max_length = self.max_length
                 tokens = self.tokenizer(
                     prefixed,
                     padding=padding_strategy,
-                    truncation=True,
-                    max_length=self.max_length,
+                    truncation=truncation,
+                    max_length=max_length,
                     return_tensors="pt",
                 )
                 tokens = {k: v.to(self.device) for k, v in tokens.items()}
@@ -151,8 +171,22 @@ class HuggingFaceEmbedder:
             self.model.train()
 
         vectors = torch.cat(outputs, dim=0) if outputs else torch.empty(0, device="cpu")
-        token_embeddings = torch.cat(token_outputs, dim=0) if token_outputs else None
-        attention_masks = torch.cat(mask_outputs, dim=0) if mask_outputs else None
+        if token_outputs:
+            if self.no_truncation:
+                max_len = max(t.size(1) for t in token_outputs)
+                token_outputs = [
+                    F.pad(t, (0, 0, 0, max_len - t.size(1))) if t.size(1) < max_len else t
+                    for t in token_outputs
+                ]
+                mask_outputs = [
+                    F.pad(m, (0, max_len - m.size(1))) if m.size(1) < max_len else m
+                    for m in mask_outputs
+                ]
+            token_embeddings = torch.cat(token_outputs, dim=0)
+            attention_masks = torch.cat(mask_outputs, dim=0)
+        else:
+            token_embeddings = None
+            attention_masks = None
         return EmbeddingResult(
             vectors=vectors, token_embeddings=token_embeddings, attention_masks=attention_masks
         )

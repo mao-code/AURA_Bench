@@ -12,7 +12,8 @@ SPLIT="${SPLIT:-test}"
 TASK="${TASK:-both}"
 OUTPUT_DIR="${OUTPUT_DIR:-eval/results}"
 BATCH_SIZE="${BATCH_SIZE:-32}"
-MAX_LENGTH="${MAX_LENGTH:-512}"
+# MAX_LENGTH="${MAX_LENGTH:-512}"
+NO_TRUNCATION="${NO_TRUNCATION:-1}"
 POOLING="${POOLING:-mean}"
 NEG_PER_QUERY="${NEG_PER_QUERY:-50}"
 CANDIDATE_CHUNK_SIZE="${CANDIDATE_CHUNK_SIZE:-128}"
@@ -29,73 +30,73 @@ if [[ -n "${MODELS:-}" ]]; then
 else
   MODEL_LIST=(
     # BGE family
-    # bge-m3
-    # bge-large-en-v1.5
+    bge-m3
+    bge-large-en-v1.5
     bge-base-en-v1.5
     bge-small-en-v1.5
-    # bge-large-zh-v1.5
+    bge-large-zh-v1.5
     bge-base-zh-v1.5
     # E5 (base/large + multilingual) and Mistral-instruct variant
-    # e5-large-v2
+    e5-large-v2
     e5-base-v2
     e5-small-v2
-    # multilingual-e5-large
+    multilingual-e5-large
     multilingual-e5-base
-    # e5-mistral-7b-instruct
+    e5-mistral-7b-instruct
     # GTE variants
-    # gte-large-en-v1.5
-    # gte-qwen2-7b-instruct
+    gte-large-en-v1.5
+    gte-qwen2-7b-instruct
     gte-base
     gte-large
     # Jina, Snowflake Arctic, NVIDIA, Mixedbread
-    # jina-embeddings-v2-base-en
+    jina-embeddings-v2-base-en
     jina-embeddings-v2-small-en
-    # snowflake-arctic-embed-l-v2
+    snowflake-arctic-embed-l-v2
     snowflake-arctic-embed-m-v2
-    # nv-embed-v1
-    # mxbai-embed-large-v1
+    nv-embed-v1
+    mxbai-embed-large-v1
     # Nomic + Salesforce Mistral
     nomic-embed-text-v1.5
-    # nomic-embed-text-v1
-    # sfr-embedding-mistral
-    # Sentence-Transformers classics
-    # all-roberta-large-v1
+    nomic-embed-text-v1
+    sfr-embedding-mistral
+    Sentence-Transformers classics
+    all-roberta-large-v1
     all-mpnet-base-v2
-    # all-minilm-l12-v2
+    all-minilm-l12-v2
     all-minilm-l6-v2
     # multi-qa-mpnet-base-dot-v1
     paraphrase-mpnet-base-v2
     paraphrase-multilingual-mpnet-base-v2
     distiluse-base-multilingual-cased-v2
     msmarco-distilbert-base-v4
-    # allenai-specter
+    allenai-specter
     bert-base-uncased
     facebook-contriever
     facebook-contriever-msmarco
     # Qwen3 embeddings and Qwen2.5 base/instruct
-    # qwen3-embedding-0.6b
-    # qwen3-embedding-4b
-    # qwen3-embedding-8b
+    qwen3-embedding-0.6b
+    qwen3-embedding-4b
+    qwen3-embedding-8b
     qwen3-4b
     qwen3-4b-instruct
     qwen2.5-3b
     qwen2.5-3b-instruct
-    # qwen2.5-7b-instruct
+    qwen2.5-7b-instruct
     # LLaMA base/instruct (≤8B)
     llama3.1-8b
     llama3.1-8b-instruct
     llama3-8b
     llama3-8b-instruct
-    # llama2-7b
-    # llama2-7b-chat
+    llama2-7b
+    llama2-7b-chat
     # DeepSeek base/chat/coder
     deepseek-llm-7b-base
     deepseek-llm-7b-chat
     deepseek-coder-6.7b-instruct
     # Instructors for comparison
-    # instructor-xl
-    # instructor-large
-    # instructor-base
+    instructor-xl
+    instructor-large
+    instructor-base
   )
 fi
 
@@ -120,6 +121,9 @@ if [[ -n "${MAX_QUERIES:-}" ]]; then
 fi
 if [[ -n "${MAX_CANDIDATES:-}" ]]; then
   COMMON_ARGS+=(--max-candidates "${MAX_CANDIDATES}")
+fi
+if [[ "${NO_TRUNCATION}" != "0" ]]; then
+  COMMON_ARGS+=(--no-truncation)
 fi
 if [[ "${LATE_INTERACTION:-0}" != "0" ]]; then
   COMMON_ARGS+=(--late-interaction)

@@ -37,6 +37,11 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--all-models", action="store_true", help="Evaluate every model in model_registry.")
     parser.add_argument("--batch-size", type=int, default=32)
     parser.add_argument("--max-length", type=int, default=512)
+    parser.add_argument(
+        "--no-truncation",
+        action="store_true",
+        help="Disable truncation and pad to the longest sequence in each batch.",
+    )
     parser.add_argument("--pooling", default="mean", choices=("mean", "cls", "last"))
     parser.add_argument("--device", default=None, help="Torch device (default: cuda if available).")
     parser.add_argument("--torch-dtype", default=None, help="Optional torch dtype, e.g., bf16 or float16.")
@@ -131,6 +136,7 @@ def _init_wandb(args: argparse.Namespace):
             "task": args.task,
             "batch_size": args.batch_size,
             "max_length": args.max_length,
+            "no_truncation": args.no_truncation,
             "pooling": args.pooling,
             "max_queries": args.max_queries,
             "max_candidates": args.max_candidates,
@@ -163,6 +169,7 @@ def main() -> int:
             repo,
             device=args.device,
             max_length=args.max_length,
+            no_truncation=args.no_truncation,
             pooling=args.pooling,
             torch_dtype=args.torch_dtype,
             trust_remote_code=args.trust_remote_code,
