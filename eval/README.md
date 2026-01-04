@@ -1,7 +1,7 @@
 # AuthBench Evaluation & Training
 
 This folder hosts standalone scripts to score and fine-tune embedding models on the
-processed AuthBench benchmark produced by `authbench/processing`. It assumes the
+processed AuthBench benchmark produced by `AURA_Bench/processing`. It assumes the
 benchmark layout of `train|dev|test/{candidates,queries,ground_truth}.jsonl` created
 by `build_benchmark.py` + `postprocess.py`.
 
@@ -30,7 +30,7 @@ by `build_benchmark.py` + `postprocess.py`.
 
 ## Paths
 
-The CLI defaults to `authbench/processing/outputs/official_ttl300k_cap10M_sf10k_postprocessed`
+The CLI defaults to `AURA_Bench/processing/outputs/official_ttl300k_cap10M_sf10k_postprocessed`
 (relative to the repo root). Override with `--dataset-root` if your processed benchmark
 lives elsewhere.
 
@@ -39,7 +39,7 @@ lives elsewhere.
 Evaluate a single model on the test split:
 
 ```bash
-python -m authbench.eval.runner \
+python -m AURA_Bench.eval.runner \
   --split test \
   --models e5-large-v2 \
   --batch-size 32 \
@@ -49,7 +49,7 @@ python -m authbench.eval.runner \
 Evaluate every registry model on dev with fewer candidates/queries for a quick sweep:
 
 ```bash
-python -m authbench.eval.runner \
+python -m AURA_Bench.eval.runner \
   --split dev \
   --all-models \
   --max-candidates 20000 --max-queries 2000 \
@@ -60,7 +60,7 @@ Enable late interaction (token-level max-sim); only feasible on smaller subsets 
 it materializes token embeddings:
 
 ```bash
-python -m authbench.eval.runner \
+python -m AURA_Bench.eval.runner \
   --models bge-m3 \
   --late-interaction \
   --max-candidates 4000 --max-queries 1000
@@ -71,7 +71,7 @@ Topic-matched candidate pools (topic-leakage control) can be enabled with
 deterministic sampling:
 
 ```bash
-python -m authbench.eval.runner \
+python -m AURA_Bench.eval.runner \
   --split test \
   --models e5-large-v2 \
   --candidate-pool topic \
@@ -81,7 +81,7 @@ python -m authbench.eval.runner \
 TF-IDF baseline (cosine on TF-IDF vectors) is available via the dedicated runner:
 
 ```bash
-python -m authbench.eval.tfidf_runner \
+python -m AURA_Bench.eval.tfidf_runner \
   --dataset-root /path/to/outputs/official_ttl300k_cap10M_sf10k_postprocessed \
   --split test \
   --output-json eval/results/tfidf.json
@@ -90,7 +90,7 @@ python -m authbench.eval.tfidf_runner \
 Export metric tables from JSON results:
 
 ```bash
-python -m authbench.eval.export_results \
+python -m AURA_Bench.eval.export_results \
   --results-dir eval/results \
   --output-dir eval/results/analysis \
   --metrics success@10 recall@10 ndcg@10 eer@10
@@ -113,7 +113,7 @@ step 0, every `--eval-every` steps, and at the end on both dev and test.
 Example: fine-tune and evaluate `bge-base-en-v1.5` with periodic metrics:
 
 ```bash
-python -m authbench.eval.train \
+python -m AURA_Bench.eval.train \
   --model bge-base-en-v1.5 \
   --batch-size 16 \
   --epochs 1 \
@@ -144,7 +144,7 @@ Useful flags:
   `--eval-every-epoch` to always evaluate at epoch boundaries.
 
 Scripts:
-- `eval/scripts/train_model.sh <model-name>` – run one model for 1 epoch with mid-epoch eval (defaults configurable via env). Run from the repo root (`authbench`); the script sets `PYTHONPATH=$(pwd)` so package imports resolve.
+- `eval/scripts/train_model.sh <model-name>` – run one model for 1 epoch with mid-epoch eval (defaults configurable via env). Run from the repo root (`AURA_Bench`); the script sets `PYTHONPATH=$(pwd)` so package imports resolve.
 - `eval/scripts/train_all_models.sh` – loop over every registry model with the same settings. Run from the repo root; `PYTHONPATH` is set for you.
 - `eval/scripts/eval_all_models.sh` – evaluate a broad set of embedding models (or override via `MODELS="m1 m2"`) and store per-model JSON outputs with fine-grained breakdowns for leaderboard building.
 

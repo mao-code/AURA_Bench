@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Train every registered model for 1 epoch with mid-epoch evaluation.
-# Run from the repository root (authbench).
+# Run from the repository root (AURA_Bench).
 set -euo pipefail
 
 # sbatch -p nlplarge-sasha-highpri --nodelist=nlplarge-compute-01 --gres=gpu:1 --ntasks=1 --cpus-per-task=4 --mem=128G -t 720:00:00 eval/scripts/train_all_models.sh
@@ -8,10 +8,10 @@ set -euo pipefail
 export PYTHONPATH="$(pwd):${PYTHONPATH:-}"
 
 # Weights & Biases defaults (override via env).
-WANDB_PROJECT="${WANDB_PROJECT:-authbench}"
+WANDB_PROJECT="${WANDB_PROJECT:-AURA_Bench}"
 WANDB_ENTITY="${WANDB_ENTITY:-}"
 WANDB_RUN_PREFIX="${WANDB_RUN_PREFIX:-train-all}"
-WANDB_TAGS="${WANDB_TAGS:-authbench train-all}"
+WANDB_TAGS="${WANDB_TAGS:-AURA_Bench train-all}"
 
 DATASET_ROOT="${DATASET_ROOT:-processing/outputs/official_ttl300k_cap10M_sf10k_postprocessed_balanced}"
 OUTPUT_DIR="${OUTPUT_DIR:-eval/results/training_summary}"

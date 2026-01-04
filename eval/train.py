@@ -20,14 +20,14 @@ PROJECT_ROOT = Path(__file__).resolve().parents[2]
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
-from authbench.eval.data import PairDataset, build_positive_pairs, load_split
-from authbench.eval.embedder import HuggingFaceEmbedder
-from authbench.eval.evaluators import (
+from AURA_Bench.eval.data import PairDataset, build_positive_pairs, load_split
+from AURA_Bench.eval.embedder import HuggingFaceEmbedder
+from AURA_Bench.eval.evaluators import (
     evaluate_authorship_attribution,
     evaluate_authorship_representation,
 )
-from authbench.eval.hf_utils import load_model, load_tokenizer
-from authbench.utilities import model_registry
+from AURA_Bench.eval.hf_utils import load_model, load_tokenizer
+from AURA_Bench.utilities import model_registry
 
 
 DEFAULT_DATASET_ROOT = (

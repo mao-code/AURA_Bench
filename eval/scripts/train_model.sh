@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Train a single registry model for 1 epoch with mid-epoch evaluation.
-# Run from the repository root (authbench).
+# Run from the repository root (AURA_Bench).
 set -euo pipefail
 
 if [[ $# -lt 1 ]]; then

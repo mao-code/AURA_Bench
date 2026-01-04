@@ -9,9 +9,9 @@ import random
 import numpy as np
 import torch
 
-from authbench.eval.data import AuthBenchSplit
-from authbench.eval.metrics import aggregate_ranking_metrics, compute_eer, ranking_metrics_for_query
-from authbench.eval.pools import build_topic_candidate_index, build_topic_pool
+from AURA_Bench.eval.data import AuthBenchSplit
+from AURA_Bench.eval.metrics import aggregate_ranking_metrics, compute_eer, ranking_metrics_for_query
+from AURA_Bench.eval.pools import build_topic_candidate_index, build_topic_pool
 
 
 @dataclass

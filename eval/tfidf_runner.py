@@ -4,8 +4,8 @@ import argparse
 import json
 from pathlib import Path
 
-from authbench.eval.data import load_split
-from authbench.eval.tfidf import (
+from AURA_Bench.eval.data import load_split
+from AURA_Bench.eval.tfidf import (
     build_tfidf_index,
     evaluate_tfidf_attribution,
     evaluate_tfidf_representation,

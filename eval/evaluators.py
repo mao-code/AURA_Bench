@@ -6,14 +6,14 @@ from typing import DefaultDict, Dict, List, Optional, Sequence
 
 import torch
 
-from authbench.eval.data import AuthBenchSplit
-from authbench.eval.embedder import HuggingFaceEmbedder
-from authbench.eval.metrics import (
+from AURA_Bench.eval.data import AuthBenchSplit
+from AURA_Bench.eval.embedder import HuggingFaceEmbedder
+from AURA_Bench.eval.metrics import (
     aggregate_ranking_metrics,
     compute_eer,
     ranking_metrics_for_query,
 )
-from authbench.eval.pools import build_topic_candidate_index, build_topic_pool
+from AURA_Bench.eval.pools import build_topic_candidate_index, build_topic_pool
 
 
 def _clean_label(value: Optional[str], default: str = "unknown") -> str:

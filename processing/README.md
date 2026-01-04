@@ -5,8 +5,8 @@ This package turns the raw datasets listed in `DATASET.md` into the unified benc
 ## CLI
 
 ```
-python -m authbench.processing.build_benchmark \
-  --manifest authbench/processing/datasets_manifest.json \
+python -m AURA_Bench.processing.build_benchmark \
+  --manifest AURA_Bench/processing/datasets_manifest.json \
   --output-dir /path/to/output \
   --total-docs 100000 \
   --allow-other-languages \

@@ -1,15 +1,15 @@
 {
-  "project": "authbench",
+  "project": "AURA_Bench",
   "entity": null,
-  "group": "authbench",
+  "group": "AURA_Bench",
   "job_type": "evaluation",
   "tags": [
-    "authbench",
+    "AURA_Bench",
     "evaluation"
   ],
   "mode": "online",
   "notes": "Default Weights & Biases settings for AuthBench evaluation runs.",
   "config": {
-    "source": "authbench/scripts"
+    "source": "AURA_Bench/scripts"
   }
 }
