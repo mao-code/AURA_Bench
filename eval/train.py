@@ -15,10 +15,11 @@ from torch.cuda.amp import GradScaler, autocast
 from torch.utils.data import DataLoader
 from transformers import get_linear_schedule_with_warmup
 
-# Ensure project root is on sys.path when executed as a script.
-PROJECT_ROOT = Path(__file__).resolve().parents[2]
-if str(PROJECT_ROOT) not in sys.path:
-    sys.path.insert(0, str(PROJECT_ROOT))
+# Ensure the repo parent is on sys.path so `AURA_Bench` imports resolve when running from repo root.
+REPO_ROOT = Path(__file__).resolve().parents[1]
+REPO_PARENT = REPO_ROOT.parent
+if str(REPO_PARENT) not in sys.path:
+    sys.path.insert(0, str(REPO_PARENT))
 
 from AURA_Bench.eval.data import PairDataset, build_positive_pairs, load_split
 from AURA_Bench.eval.embedder import HuggingFaceEmbedder

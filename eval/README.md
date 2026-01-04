@@ -36,6 +36,12 @@ lives elsewhere.
 
 ## Running evaluations
 
+Recommended module invocation (run from the repo parent, or set `PYTHONPATH` to the repo parent):
+
+```bash
+python -m AURA_Bench.eval.runner --help
+```
+
 Evaluate a single model on the test split:
 
 ```bash

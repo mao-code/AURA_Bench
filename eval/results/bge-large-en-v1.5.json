@@ -896,9 +896,9 @@
       "num_queries": 972,
       "positive_pairs": 1008,
       "negative_pairs": 48600,
-      "num_candidates": 1006,
       "negatives_per_query": 50,
       "negative_strategy": "sample",
+      "num_candidates": 1006,
       "by_language": {
         "ar": {
           "eer": 0.1271957671957672,

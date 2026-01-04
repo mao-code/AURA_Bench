@@ -4,6 +4,9 @@ This package turns the raw datasets listed in `DATASET.md` into the unified benc
 
 ## CLI
 
+Run the module from the repo parent, or set `PYTHONPATH` to the repo parent so
+`AURA_Bench.*` imports resolve.
+
 ```
 python -m AURA_Bench.processing.build_benchmark \
   --manifest AURA_Bench/processing/datasets_manifest.json \

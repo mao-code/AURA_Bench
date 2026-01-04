@@ -2,7 +2,14 @@ from __future__ import annotations
 
 import argparse
 import json
+import sys
 from pathlib import Path
+
+# Ensure the repo parent is on sys.path so `AURA_Bench` imports resolve when running from repo root.
+REPO_ROOT = Path(__file__).resolve().parents[1]
+REPO_PARENT = REPO_ROOT.parent
+if str(REPO_PARENT) not in sys.path:
+    sys.path.insert(0, str(REPO_PARENT))
 
 from AURA_Bench.eval.data import load_split
 from AURA_Bench.eval.tfidf import (
@@ -22,7 +29,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--candidate-pool", choices=("all", "topic"), default="all")
     parser.add_argument("--max-topic-candidates", type=int, default=None)
     parser.add_argument("--topic-seed", type=int, default=13)
-    parser.add_argument("--negatives-per-query", type=int, default=10)
+    parser.add_argument("--negatives-per-query", type=int, default=50)
     parser.add_argument("--negative-strategy", choices=("sample", "all"), default="sample")
     parser.add_argument("--analyzer", default="char_wb")
     parser.add_argument("--ngram-min", type=int, default=3)
@@ -107,3 +114,9 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+
+    """
+    Example usage:
+    python -m eval.tfidf_runner \
+    --dataset-root processing/outputs/official_ttl300k_cap10M_sf10k_postprocessed_balanced
+    """

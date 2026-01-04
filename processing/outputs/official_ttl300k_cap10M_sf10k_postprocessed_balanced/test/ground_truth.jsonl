@@ -970,3 +970,43 @@
 {"query_id": "doc_293241", "positive_ids": ["doc_293240"], "author_id": "5a53258637b1afe3b10d7bb58fbb56dc65aa99632f44168ebda459d42e319a46"}
 {"query_id": "doc_297697", "positive_ids": ["doc_297698"], "author_id": "c752c350f46940e7f23c3b2190e9a2dbb27326017516199260b033261c908eb3"}
 {"query_id": "doc_289811", "positive_ids": ["doc_289809"], "author_id": "07b9bc89f96bfb6587e1f33b7b74f479510c9f1115528903eda77938902100ca"}
+{"query_id": "doc_000402", "positive_ids": ["doc_000401", "doc_000403"], "author_id": "277d6352ba916343744e4daaff36d2258160cc49f7d035ad9e2fd61290ab6ce2"}
+{"query_id": "doc_000408", "positive_ids": ["doc_000404", "doc_000406"], "author_id": "27a29eedcdb1f96af63f6a979d48581efe15068a9cad1432a5acfef303c11b60"}
+{"query_id": "doc_000549", "positive_ids": ["doc_000552", "doc_000553"], "author_id": "327359adb0ce5c4bdb3355f2a2415c621bb7fdcaa2eb2562e3b52d955ce837ea"}
+{"query_id": "doc_000662", "positive_ids": ["doc_000661", "doc_000664"], "author_id": "3ba707dc68ed58016025f8a90cfc649708d9910441643d2e2907a152d4fbc7c7"}
+{"query_id": "doc_000733", "positive_ids": ["doc_000732", "doc_000731"], "author_id": "402d3e65119014c32390bb9985a06e58484d02591235ef06519c49a737de6668"}
+{"query_id": "doc_001000", "positive_ids": ["doc_001003", "doc_001004"], "author_id": "5d3849235f719b77b1a5842a9d870b10cfc52d331cc765aa9461dd6f05a24201"}
+{"query_id": "doc_001016", "positive_ids": ["doc_001017", "doc_001014"], "author_id": "5e0f70e49b41306f2dea670c99b90c95c9949c5aabde74798167dfac4813b68a"}
+{"query_id": "doc_001307", "positive_ids": ["doc_001305", "doc_001306"], "author_id": "7cdd13714f3f6f68e73d593afeb587b7f4dfd8cd9520d35de1c5e0b5f91e8424"}
+{"query_id": "doc_001405", "positive_ids": ["doc_001406", "doc_001407"], "author_id": "87688a52e3103bf78987dcacb8765ee90408d05ea8a1f665396a21bbbdad908b"}
+{"query_id": "doc_001416", "positive_ids": ["doc_001415"], "author_id": "886cd85797c9e5e63a583f043baa241748530dee99ddcb283bbe224bab17c65b"}
+{"query_id": "doc_001442", "positive_ids": ["doc_001443", "doc_001444"], "author_id": "89b0b1859c1a00f0b78a7b087a40a43e8c9c13204c8f0f7a456d32915f761191"}
+{"query_id": "doc_001720", "positive_ids": ["doc_001719"], "author_id": "a9824250feef0f5ce81ac92759458803f40b6e6e9e142e8048b166223ed17fbf"}
+{"query_id": "doc_002160", "positive_ids": ["doc_002159"], "author_id": "d811fd796656b40a8fc8ab90776ab10fbd1e8a141dc29f2b051a6b7ee15f43e7"}
+{"query_id": "doc_002314", "positive_ids": ["doc_002316", "doc_002312"], "author_id": "e7b6baee6ff098a684d78068beb9221d2a12a3278986d8c8cf74ebfe85e6632a"}
+{"query_id": "doc_042338", "positive_ids": ["doc_042337"], "author_id": "0eff89f5b87e2011b42ce1d9664a5c7b475a0163528e1c80fd993659155fdb3a"}
+{"query_id": "doc_042373", "positive_ids": ["doc_042374"], "author_id": "105bda6b79c08c2ac845f9f1b535a18efd495e82923b15babd5ca64977956346"}
+{"query_id": "doc_043112", "positive_ids": ["doc_043111"], "author_id": "3097939df89ad9da204ce26edf547cbe65eac777be44a6797cba8b47ae837e66"}
+{"query_id": "doc_043130", "positive_ids": ["doc_043132", "doc_043131"], "author_id": "315c21c6856cae7a4c426d88469a08f8577e2d15f452aa8930273e8bacfe5d53"}
+{"query_id": "doc_043867", "positive_ids": ["doc_043865"], "author_id": "52be166664641ee3135a6ad980422c0ef188aae2818033721a82cffccfdc46b9"}
+{"query_id": "doc_044001", "positive_ids": ["doc_044000"], "author_id": "57ba6de16384c4f1bd6b4823fd16719b9e9c624e03170d578a4ba7b2ae486067"}
+{"query_id": "doc_055211", "positive_ids": ["doc_055212"], "author_id": "01264b4a73e9b68cfe529e714e44991aaa71daa102242aed0e001ea682afe629"}
+{"query_id": "doc_055284", "positive_ids": ["doc_055283", "doc_055285"], "author_id": "02aa95d08eadf224228d1d8f87653e00be5204f8f41ad9e6a97cacc125121f22"}
+{"query_id": "doc_055301", "positive_ids": ["doc_055300"], "author_id": "033008ea44bcd24dcfd917815af1fcfbee057aa392aa0c59e50187398ddac217"}
+{"query_id": "doc_055391", "positive_ids": ["doc_055390"], "author_id": "0537163de3b897759a1b491dfa069970b220069a99c80069c4176d60edde659d"}
+{"query_id": "doc_055402", "positive_ids": ["doc_055403"], "author_id": "055554027d231fdba3271787cf4154736a902e5f87fc52642978f311fa850518"}
+{"query_id": "doc_055433", "positive_ids": ["doc_055432"], "author_id": "05d9db444b61e25c9af34803beac3773b6ab42bdbc3dcb34f6c0c20242538113"}
+{"query_id": "doc_055450", "positive_ids": ["doc_055449"], "author_id": "0633cbdd55b689e8f9af77d90bdecf041497a27a0f31c06ea796a87eb5504daa"}
+{"query_id": "doc_055574", "positive_ids": ["doc_055575"], "author_id": "091f77280a0db6a37ed84ec18f3956fe55423d20d730ddd907749b9177731f53"}
+{"query_id": "doc_055601", "positive_ids": ["doc_055602"], "author_id": "098a3eaf0f14718c5a4bdb7741b57870ea956217b61850de22c5848b8de6ee63"}
+{"query_id": "doc_055906", "positive_ids": ["doc_055907"], "author_id": "10da440087a750c22a6cd25831d9ec27f70f4f3c62d657ff78239bfbcb8e3d09"}
+{"query_id": "doc_056010", "positive_ids": ["doc_056011"], "author_id": "134618ac5191a8db1efd2cf6d18113abea4eea88b9bae1c45c4939d074e07bf8"}
+{"query_id": "doc_056180", "positive_ids": ["doc_056181"], "author_id": "17702932de973edab14a220fdc2081a08373e9bca248811598e8332045192d2a"}
+{"query_id": "doc_056262", "positive_ids": ["doc_056263"], "author_id": "1950e9ea7f2cb2c4241b07b4f5aeef43777de8764ef4632a95bdb62be76368be"}
+{"query_id": "doc_056317", "positive_ids": ["doc_056316"], "author_id": "1aa19f50bb9ecabb0f62697a52d6fd9a9a76b7e1faeb5dec2b64f410a0eb4ac7"}
+{"query_id": "doc_056353", "positive_ids": ["doc_056352"], "author_id": "1b8648aa859eba6ef34cc50ab31453f67b695b1c13790b271c389c5135938b52"}
+{"query_id": "doc_056363", "positive_ids": ["doc_056362"], "author_id": "1b9f0aaaff185b59d9722853af44f763de04b673e6a13c2760b52aa01a7e92b8"}
+{"query_id": "doc_056493", "positive_ids": ["doc_056494"], "author_id": "1e99aec9dfb0017a2e24c0d41b43c841d54d938877bfd1384a9b8b660c634880"}
+{"query_id": "doc_056560", "positive_ids": ["doc_056561"], "author_id": "2033f767fda3967700c00f2c58c1d4b17c8804ed50ae59a9d4881179b7ca1e77"}
+{"query_id": "doc_056614", "positive_ids": ["doc_056613"], "author_id": "2192afd846c9e185132d2fea78b6997f6e1d000eee10b9a5756b9e6fedf920b3"}
+{"query_id": "doc_056807", "positive_ids": ["doc_056808"], "author_id": "2656264df7cc65722b90493e50ebc7e7d7a6e1527b8e532fc3fa298d7285860e"}

@@ -6,10 +6,11 @@ from pathlib import Path
 from typing import Dict, List, Optional
 import sys
 
-# Ensure project root is on sys.path when executed as a script.
-PROJECT_ROOT = Path(__file__).resolve().parents[2]
-if str(PROJECT_ROOT) not in sys.path:
-    sys.path.insert(0, str(PROJECT_ROOT))
+# Ensure the repo parent is on sys.path so `AURA_Bench` imports resolve when running from repo root.
+REPO_ROOT = Path(__file__).resolve().parents[1]
+REPO_PARENT = REPO_ROOT.parent
+if str(REPO_PARENT) not in sys.path:
+    sys.path.insert(0, str(REPO_PARENT))
 
 from AURA_Bench.eval.data import load_split
 from AURA_Bench.eval.embedder import HuggingFaceEmbedder

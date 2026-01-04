@@ -4,6 +4,9 @@ This folder contains a reusable script for summarizing the final AuthBench relea
 
 ### Usage
 
+Run the module from the repo parent, or set `PYTHONPATH` to the repo parent so
+`AURA_Bench.*` imports resolve.
+
 ```bash
 python -m AURA_Bench.post_analysis.analyze_dataset \
     --dataset-dir AURA_Bench/processing/outputs/official_ttl300k_cap10M_sf10k_postprocessed \
