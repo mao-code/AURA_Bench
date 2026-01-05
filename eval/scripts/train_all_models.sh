@@ -17,6 +17,7 @@ DATASET_ROOT="${DATASET_ROOT:-processing/outputs/official_ttl300k_cap10M_sf10k_p
 OUTPUT_DIR="${OUTPUT_DIR:-eval/results/training_summary}"
 BATCH_SIZE="${BATCH_SIZE:-16}"
 EVAL_FRACTION="${EVAL_FRACTION:-0.5}"
+EVAL_KS="${EVAL_KS:-5}"
 
 MODELS=(
   "e5-large-v2"
@@ -56,8 +57,10 @@ for MODEL in "${MODELS[@]}"; do
     --batch-size "$BATCH_SIZE" \
     --eval-fraction-epoch "$EVAL_FRACTION" \
     --eval-every-epoch \
+    --eval-ks $EVAL_KS \
     --dataset-root "$DATASET_ROOT" \
     --output-dir "$OUTPUT_DIR" \
+    --log-file "$OUTPUT_DIR/$MODEL/eval_history.jsonl" \
     --skip-checkpoint \
     "${WANDB_ARGS[@]}"
 done

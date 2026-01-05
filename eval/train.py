@@ -135,6 +135,13 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--negatives-per-query", type=int, default=50)
     parser.add_argument("--negative-strategy", choices=("sample", "all"), default="sample")
     parser.add_argument("--seed", type=int, default=42)
+    parser.add_argument(
+        "--eval-ks",
+        type=int,
+        nargs="+",
+        default=[1, 3, 5, 10],
+        help="Ranking metric cutoffs (e.g., --eval-ks 5 or --eval-ks 1 3 5).",
+    )
     parser.add_argument("--log-file", type=Path, help="Optional JSONL log of evaluation metrics.")
     parser.add_argument("--wandb-project", help="If set, log metrics to this Weights & Biases project.")
     parser.add_argument("--wandb-run-name", help="Optional W&B run name.")
@@ -207,6 +214,7 @@ def _init_wandb(args: argparse.Namespace):
             "negatives_per_query": args.negatives_per_query,
             "negative_strategy": args.negative_strategy,
             "late_interaction": args.late_interaction,
+            "eval_ks": args.eval_ks,
             "dataset_root": str(args.dataset_root),
         },
     )
@@ -224,7 +232,7 @@ def run_evaluations(
         split=split,
         embedder=embedder,
         batch_size=max(args.batch_size, 8),
-        ks=(1, 3, 5, 10),
+        ks=tuple(args.eval_ks),
         query_prefix=args.query_prefix,
         doc_prefix=args.doc_prefix,
         max_queries=args.max_eval_queries,
@@ -268,6 +276,10 @@ def _log_eval_to_wandb(wandb_run, eval_payload: Dict[str, object], prefix: str) 
 
 def train() -> int:
     args = parse_args()
+    eval_ks = sorted({k for k in args.eval_ks if k > 0})
+    if not eval_ks:
+        raise ValueError("eval_ks must contain at least one positive integer.")
+    args.eval_ks = eval_ks
     set_seed(args.seed)
     wandb_run = _init_wandb(args)
     loss_history: List[Dict[str, float]] = []
@@ -415,6 +427,7 @@ def train() -> int:
                 "temperature": args.temperature,
                 "pooling": args.pooling,
                 "max_length": args.max_length,
+                "eval_ks": args.eval_ks,
                 "loss_history": loss_history,
                 "eval_history": eval_history,
                 "dev_metrics": final_dev,
