@@ -224,3 +224,7 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+
+# Example (export CSVs + plots):
+# python -m eval.export_results --results-dir eval/results --output-dir eval/results/analysis --metrics success@10 recall@10 ndcg@10 eer@10
+# python -m post_analysis.plot_results --results-dir eval/results --performance-metrics success@10 recall@10 ndcg@10 eer@10 --performance-out eval/results/analysis

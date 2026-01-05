@@ -184,6 +184,42 @@ def collect_overall_metrics_dataframe(csv_path: Path, metric: str) -> pd.DataFra
     return df.dropna(subset=["value"])
 
 
+def load_analysis_csv(csv_path: Path) -> tuple[pd.DataFrame, List[str]]:
+    if not csv_path.exists():
+        return pd.DataFrame(), []
+    df = pd.read_csv(csv_path)
+    if df.empty:
+        return pd.DataFrame(), []
+    bucket_cols = [col for col in df.columns if col not in ("model", "overall", "macro_avg")]
+    return df, bucket_cols
+
+
+def split_baseline(
+    df: pd.DataFrame,
+    baseline_model: str | None,
+    *,
+    value_column: str | None = None,
+    value_columns: Sequence[str] | None = None,
+) -> tuple[pd.DataFrame, float | None, str | None]:
+    if not baseline_model:
+        return df, None, None
+    baseline_rows = df[df["model"] == baseline_model]
+    if baseline_rows.empty:
+        return df, None, None
+    baseline_label = baseline_model
+    if value_column is not None:
+        series = pd.to_numeric(baseline_rows[value_column], errors="coerce")
+        baseline_value = float(series.iloc[0])
+    else:
+        columns = list(value_columns or [])
+        baseline_values = baseline_rows[columns].apply(pd.to_numeric, errors="coerce")
+        baseline_value = float(baseline_values.mean(axis=1).iloc[0])
+    if np.isnan(baseline_value):
+        return df, None, None
+    df = df[df["model"] != baseline_model]
+    return df, baseline_value, baseline_label
+
+
 def make_overall_barh(
     df: pd.DataFrame,
     title: str,
@@ -422,6 +458,18 @@ def parse_args() -> argparse.Namespace:
         help="Directory containing per-model evaluation JSON files.",
     )
     parser.add_argument(
+        "--analysis-csv-dir",
+        type=Path,
+        default=None,
+        help="Directory containing exported analysis CSVs (defaults to results-dir/analysis if present).",
+    )
+    parser.add_argument(
+        "--analysis-prefix",
+        type=str,
+        default="",
+        help="Optional filename prefix used by analysis CSVs (e.g., default_).",
+    )
+    parser.add_argument(
         "--csv-dir",
         type=Path,
         default=Path("post_analysis/outputs/csv"),
@@ -531,16 +579,17 @@ def main() -> None:
     overall_metrics_path = args.results_dir / "overall_metrics.csv"
     use_overall_metrics = overall_metrics_path.exists()
 
+    analysis_dir = args.analysis_csv_dir
+    if analysis_dir is None:
+        candidate_dir = args.results_dir / "analysis"
+        if candidate_dir.exists():
+            analysis_dir = candidate_dir
+
     genre_csv = args.csv_dir / "genre_distribution_by_language.csv"
     token_csv = args.csv_dir / "token_lengths_by_language.csv"
     language_csv = args.csv_dir / "languages_overall.csv"
 
-    need_langs = (
-        not use_overall_metrics
-        or genre_csv.exists()
-        or token_csv.exists()
-        or language_csv.exists()
-    )
+    need_langs = genre_csv.exists() or token_csv.exists() or language_csv.exists()
     langs: Sequence[str] = []
     if need_langs:
         langs = language_order_from_csv(args.csv_dir)
@@ -554,57 +603,148 @@ def main() -> None:
         if task == "auto":
             task = infer_task(metric)
 
-        if use_overall_metrics:
-            perf_df = collect_overall_metrics_dataframe(overall_metrics_path, metric)
-        else:
-            perf_df = collect_performance_dataframe(args.results_dir, metric, task, langs)
-        if perf_df.empty:
-            continue
+        analysis_metric_df = pd.DataFrame()
+        analysis_metric_cols: List[str] = []
+        if analysis_dir is not None:
+            analysis_metric_path = analysis_dir / f"{args.analysis_prefix}{metric}.csv"
+            analysis_metric_df, analysis_metric_cols = load_analysis_csv(analysis_metric_path)
 
-        baseline_value = None
-        baseline_label = None
-        if args.baseline_model:
-            baseline_rows = perf_df[perf_df["model"] == args.baseline_model]
-            if not baseline_rows.empty:
-                baseline_label = args.baseline_model
-                if use_overall_metrics:
-                    baseline_value = float(baseline_rows["value"].iloc[0])
-                else:
-                    baseline_values = baseline_rows[list(langs)].apply(pd.to_numeric, errors="coerce")
-                    baseline_value = float(baseline_values.mean(axis=1).iloc[0])
-                if np.isnan(baseline_value):
-                    baseline_value = None
-                    baseline_label = None
-                else:
-                    perf_df = perf_df[perf_df["model"] != args.baseline_model]
-
-        higher_better = metric_direction(task, metric, higher_override)
-        if custom_single_out:
-            outpath = args.performance_out
-        else:
-            outpath = perf_dir / f"{task}_{metric}_macro_bar.pdf"
-
-        if use_overall_metrics:
-            make_overall_barh(
-                perf_df,
-                title=f"{task.title()} performance ({metric})",
-                xlabel=metric,
-                higher_better=higher_better,
-                outpath=outpath,
-                baseline_value=baseline_value,
-                baseline_label=baseline_label,
+        if not analysis_metric_df.empty:
+            overall_df = analysis_metric_df[["model", "overall"]].rename(columns={"overall": "value"})
+            overall_df["value"] = pd.to_numeric(overall_df["value"], errors="coerce")
+            overall_df = overall_df.dropna(subset=["value"])
+            overall_df, baseline_value, baseline_label = split_baseline(
+                overall_df,
+                args.baseline_model,
+                value_column="value",
             )
-        else:
-            make_macro_barh(
-                perf_df,
-                title=f"{task.title()} performance ({metric})",
-                xlabel=metric,
-                higher_better=higher_better,
-                outpath=outpath,
-                langs=langs,
-                baseline_value=baseline_value,
-                baseline_label=baseline_label,
+
+            macro_df = analysis_metric_df[["model"] + analysis_metric_cols]
+            macro_df, macro_baseline_value, macro_baseline_label = split_baseline(
+                macro_df,
+                args.baseline_model,
+                value_columns=analysis_metric_cols,
             )
+            if not overall_df.empty:
+                overall_out = perf_dir / f"{task}_{metric}_overall_bar.pdf"
+                make_overall_barh(
+                    overall_df,
+                    title=f"{task.title()} overall performance ({metric})",
+                    xlabel=metric,
+                    higher_better=metric_direction(task, metric, higher_override),
+                    outpath=overall_out,
+                    baseline_value=baseline_value,
+                    baseline_label=baseline_label,
+                )
+
+            if analysis_metric_cols:
+                if custom_single_out:
+                    macro_out = args.performance_out
+                else:
+                    macro_out = perf_dir / f"{task}_{metric}_macro_bar.pdf"
+                make_macro_barh(
+                    macro_df,
+                    title=f"{task.title()} performance ({metric})",
+                    xlabel=metric,
+                    higher_better=metric_direction(task, metric, higher_override),
+                    outpath=macro_out,
+                    langs=analysis_metric_cols,
+                    baseline_value=macro_baseline_value,
+                    baseline_label=macro_baseline_label,
+                )
+        else:
+            if use_overall_metrics:
+                perf_df = collect_overall_metrics_dataframe(overall_metrics_path, metric)
+            else:
+                if not langs:
+                    langs = language_order_from_results(args.results_dir)
+                    if not langs:
+                        raise ValueError("Could not determine language order from results.")
+                perf_df = collect_performance_dataframe(args.results_dir, metric, task, langs)
+            if perf_df.empty:
+                continue
+
+            if use_overall_metrics:
+                perf_df, baseline_value, baseline_label = split_baseline(
+                    perf_df,
+                    args.baseline_model,
+                    value_column="value",
+                )
+            else:
+                perf_df, baseline_value, baseline_label = split_baseline(
+                    perf_df,
+                    args.baseline_model,
+                    value_columns=langs,
+                )
+
+            higher_better = metric_direction(task, metric, higher_override)
+            if custom_single_out:
+                outpath = args.performance_out
+            else:
+                outpath = perf_dir / f"{task}_{metric}_macro_bar.pdf"
+
+            if use_overall_metrics:
+                make_overall_barh(
+                    perf_df,
+                    title=f"{task.title()} performance ({metric})",
+                    xlabel=metric,
+                    higher_better=higher_better,
+                    outpath=outpath,
+                    baseline_value=baseline_value,
+                    baseline_label=baseline_label,
+                )
+            else:
+                make_macro_barh(
+                    perf_df,
+                    title=f"{task.title()} performance ({metric})",
+                    xlabel=metric,
+                    higher_better=higher_better,
+                    outpath=outpath,
+                    langs=langs,
+                    baseline_value=baseline_value,
+                    baseline_label=baseline_label,
+                )
+
+        if analysis_dir is not None:
+            genre_path = analysis_dir / f"{args.analysis_prefix}genre_{metric}.csv"
+            genre_df, genre_cols = load_analysis_csv(genre_path)
+            if genre_cols:
+                genre_df, genre_baseline_value, genre_baseline_label = split_baseline(
+                    genre_df,
+                    args.baseline_model,
+                    value_columns=genre_cols,
+                )
+                genre_out = perf_dir / f"{task}_{metric}_genre_macro_bar.pdf"
+                make_macro_barh(
+                    genre_df[["model"] + genre_cols],
+                    title=f"{task.title()} performance by genre ({metric})",
+                    xlabel=metric,
+                    higher_better=metric_direction(task, metric, higher_override),
+                    outpath=genre_out,
+                    langs=genre_cols,
+                    baseline_value=genre_baseline_value,
+                    baseline_label=genre_baseline_label,
+                )
+
+            length_path = analysis_dir / f"{args.analysis_prefix}length_{metric}.csv"
+            length_df, length_cols = load_analysis_csv(length_path)
+            if length_cols:
+                length_df, length_baseline_value, length_baseline_label = split_baseline(
+                    length_df,
+                    args.baseline_model,
+                    value_columns=length_cols,
+                )
+                length_out = perf_dir / f"{task}_{metric}_length_macro_bar.pdf"
+                make_macro_barh(
+                    length_df[["model"] + length_cols],
+                    title=f"{task.title()} performance by length ({metric})",
+                    xlabel=metric,
+                    higher_better=metric_direction(task, metric, higher_override),
+                    outpath=length_out,
+                    langs=length_cols,
+                    baseline_value=length_baseline_value,
+                    baseline_label=length_baseline_label,
+                )
 
     if genre_csv.exists():
         make_genre_pie_grid(genre_csv, genre_out, langs=langs, top_per_lang=args.genre_top_k)
