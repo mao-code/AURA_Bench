@@ -62,8 +62,8 @@ Implementation notes:
 ---
 
 ## 3. Prerequisite
-All scripts under AURA_Bench/raw_analysis must be able to:
-1. Load each dataset listed in `AURA_Bench/DATASET.md`.
+All scripts under AuthBench/raw_analysis must be able to:
+1. Load each dataset listed in `AuthBench/DATASET.md`.
 2. Extract author identifier, raw text, language, and any available genre metadata.
 3. Compute basic statistics per dataset:
    1. number of documents
@@ -73,7 +73,7 @@ All scripts under AURA_Bench/raw_analysis must be able to:
 
 You must take a deep look at these scripts of how we read the file, extract the fields and aggregate information.
 
-There are some output for a subset of these datasets in `AURA_Bench/raw_analysis/output`.
+There are some output for a subset of these datasets in `AuthBench/raw_analysis/output`.
 You can check the fields name, values, etc. for each dataset
 
 ## 4. Target Benchmark Size and Splits

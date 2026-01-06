@@ -5,11 +5,11 @@ This package turns the raw datasets listed in `DATASET.md` into the unified benc
 ## CLI
 
 Run the module from the repo parent, or set `PYTHONPATH` to the repo parent so
-`AURA_Bench.*` imports resolve.
+`AuthBench.*` imports resolve.
 
 ```
-python -m AURA_Bench.processing.build_benchmark \
-  --manifest AURA_Bench/processing/datasets_manifest.json \
+python -m AuthBench.processing.build_benchmark \
+  --manifest AuthBench/processing/datasets_manifest.json \
   --output-dir /path/to/output \
   --total-docs 100000 \
   --allow-other-languages \

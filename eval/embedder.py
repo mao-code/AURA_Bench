@@ -7,7 +7,7 @@ import torch
 import torch.nn.functional as F
 from tqdm.auto import tqdm
 
-from AURA_Bench.eval.hf_utils import load_model, load_tokenizer
+from AuthBench.eval.hf_utils import load_model, load_tokenizer
 
 
 def _chunk_iterable(items: Sequence[str], chunk_size: int) -> Iterable[List[str]]:

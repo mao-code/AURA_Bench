@@ -5,14 +5,14 @@ import json
 import sys
 from pathlib import Path
 
-# Ensure the repo parent is on sys.path so `AURA_Bench` imports resolve when running from repo root.
+# Ensure the repo parent is on sys.path so `AuthBench` imports resolve when running from repo root.
 REPO_ROOT = Path(__file__).resolve().parents[1]
 REPO_PARENT = REPO_ROOT.parent
 if str(REPO_PARENT) not in sys.path:
     sys.path.insert(0, str(REPO_PARENT))
 
-from AURA_Bench.eval.data import load_split
-from AURA_Bench.eval.tfidf import (
+from AuthBench.eval.data import load_split
+from AuthBench.eval.tfidf import (
     build_tfidf_index,
     evaluate_tfidf_attribution,
     evaluate_tfidf_representation,

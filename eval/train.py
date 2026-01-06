@@ -15,20 +15,20 @@ from torch.cuda.amp import GradScaler, autocast
 from torch.utils.data import DataLoader
 from transformers import get_linear_schedule_with_warmup
 
-# Ensure the repo parent is on sys.path so `AURA_Bench` imports resolve when running from repo root.
+# Ensure the repo parent is on sys.path so `AuthBench` imports resolve when running from repo root.
 REPO_ROOT = Path(__file__).resolve().parents[1]
 REPO_PARENT = REPO_ROOT.parent
 if str(REPO_PARENT) not in sys.path:
     sys.path.insert(0, str(REPO_PARENT))
 
-from AURA_Bench.eval.data import PairDataset, build_positive_pairs, load_split
-from AURA_Bench.eval.embedder import HuggingFaceEmbedder
-from AURA_Bench.eval.evaluators import (
+from AuthBench.eval.data import PairDataset, build_positive_pairs, load_split
+from AuthBench.eval.embedder import HuggingFaceEmbedder
+from AuthBench.eval.evaluators import (
     evaluate_authorship_attribution,
     evaluate_authorship_representation,
 )
-from AURA_Bench.eval.hf_utils import load_model, load_tokenizer
-from AURA_Bench.utilities import model_registry
+from AuthBench.eval.hf_utils import load_model, load_tokenizer
+from AuthBench.utilities import model_registry
 
 
 DEFAULT_DATASET_ROOT = (

@@ -1,5 +1,5 @@
-# AURA-Bench: Authorship Universal Representation and Attribution Benchmark
-AURA-Bench is a multilingual, multi-genre benchmark for authorship representation and attribution. It spans a range of token lengths and targets realistic, cross-domain evaluation.
+# AuthBench: Authorship Universal Representation and Attribution Benchmark
+AuthBench is a multilingual, multi-genre benchmark for authorship representation and attribution. It spans a range of token lengths and targets realistic, cross-domain evaluation.
 
 ## What is in this repo
 - `processing/`: dataset construction pipeline and configs

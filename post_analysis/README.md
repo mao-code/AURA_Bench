@@ -5,17 +5,17 @@ This folder contains a reusable script for summarizing the final AuthBench relea
 ### Usage
 
 Run the module from the repo parent, or set `PYTHONPATH` to the repo parent so
-`AURA_Bench.*` imports resolve.
+`AuthBench.*` imports resolve.
 
 ```bash
-python -m AURA_Bench.post_analysis.analyze_dataset \
-    --dataset-dir AURA_Bench/processing/outputs/official_ttl300k_cap10M_sf10k_postprocessed \
-    --output-dir AURA_Bench/post_analysis/outputs
+python -m AuthBench.post_analysis.analyze_dataset \
+    --dataset-dir AuthBench/processing/outputs/official_ttl300k_cap10M_sf10k_postprocessed \
+    --output-dir AuthBench/post_analysis/outputs
 ```
 
 Arguments:
 - `--dataset-dir`: Path to the split directories (`train/dev/test`) containing `queries.jsonl`, `candidates.jsonl`, and `ground_truth.jsonl`.
-- `--output-dir`: Destination for CSV tables and figures (defaults to `AURA_Bench/post_analysis/outputs`).
+- `--output-dir`: Destination for CSV tables and figures (defaults to `AuthBench/post_analysis/outputs`).
 - `--splits`: Optional list of splits to include.
 
 ### Outputs

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Evaluate a wide range of embedding models and store per-model metrics (including fine-grained breakdowns).
-# Run from the repository root (AURA_Bench).
+# Run from the repository root (AuthBench).
 set -euo pipefail
 
 # sbatch -p nlplarge-sasha-highpri --nodelist=nlplarge-compute-01 --gres=gpu:1 --ntasks=1 --cpus-per-task=4 --mem=128G -t 720:00:00 eval/scripts/eval_all_models.sh
@@ -19,10 +19,10 @@ NEG_PER_QUERY="${NEG_PER_QUERY:-50}"
 CANDIDATE_CHUNK_SIZE="${CANDIDATE_CHUNK_SIZE:-128}"
 
 # Weights & Biases defaults (override via env).
-WANDB_PROJECT="${WANDB_PROJECT:-AURA_Bench}"
+WANDB_PROJECT="${WANDB_PROJECT:-AuthBench}"
 WANDB_ENTITY="${WANDB_ENTITY:-}"
 WANDB_RUN_PREFIX="${WANDB_RUN_PREFIX:-eval-all}"
-WANDB_TAGS="${WANDB_TAGS:-AURA_Bench eval-all}"
+WANDB_TAGS="${WANDB_TAGS:-AuthBench eval-all}"
 
 if [[ -n "${MODELS:-}" ]]; then
   # Allow overriding via `MODELS="m1 m2 ..."`.
