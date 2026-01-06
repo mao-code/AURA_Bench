@@ -1,4 +1,4 @@
-# AuthBench: Authorship Universal Representation and Attribution Benchmark
+# AuthBench: A Large-Scale Multilingual Benchmark for Authorship Representation across Genres and Lengths
 AuthBench is a multilingual, multi-genre benchmark for authorship representation and attribution. It spans a range of token lengths and targets realistic, cross-domain evaluation.
 
 ## What is in this repo

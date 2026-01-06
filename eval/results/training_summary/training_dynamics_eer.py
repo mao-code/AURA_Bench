@@ -1,3 +1,6 @@
+import json
+from pathlib import Path
+
 import matplotlib.pyplot as plt
 from matplotlib import patheffects as pe
 from matplotlib import rcParams
@@ -14,31 +17,62 @@ rcParams.update({
 def norm(v):
     return v if v <= 1 else v
 
-# ---------- X labels (500 interval) ----------
-# 生成 0 到 2600，步长 500 的标签: [0, 500, 1000, 1500, 2000, 2500]
-labels = list(range(0, 2601, 500))
+
+def load_eval_series(base_dir, metric_key, block_key):
+    series = {}
+    for model_dir in sorted(path for path in base_dir.iterdir() if path.is_dir()):
+        history_path = model_dir / "eval_history.jsonl"
+        if not history_path.exists():
+            continue
+        steps = []
+        values = []
+        with history_path.open("r", encoding="utf-8") as handle:
+            for line in handle:
+                line = line.strip()
+                if not line:
+                    continue
+                record = json.loads(line)
+                if record.get("split") != "dev":
+                    continue
+                step = record.get("step")
+                if step is None:
+                    continue
+                block = record.get(block_key, {})
+                if metric_key in block:
+                    steps.append(step)
+                    values.append(block[metric_key])
+        if steps:
+            series[model_dir.name] = (steps, values)
+    return series
+
+
+def sorted_series(series):
+    steps, values = series
+    pairs = sorted(zip(steps, values), key=lambda item: item[0])
+    sorted_steps = [step for step, _ in pairs]
+    sorted_values = [value for _, value in pairs]
+    return sorted_steps, sorted_values
+
+base_dir = Path(__file__).resolve().parent
+series_by_model = load_eval_series(base_dir, "eer", "attribution")
+if not series_by_model:
+    raise SystemExit("No EER series found in eval_history.jsonl files.")
+
+max_step = 3000
+labels = list(range(0, max_step + 1, 500))
 x = list(range(len(labels)))
 
-# ---------- Data (Interpolate) ----------
-L1_raw = [0.1770, 0.0511, 0.0447]
-L2_raw = [0.1929, 0.0464, 0.0417]
-L3_raw = [0.1401, 0.0354, 0.0319]
-L4_raw = [0.1215, 0.0408, 0.0355]
-original_x = [0, 1249, 2594]
-
-L1 = list(map(norm, L1_raw))
-L2 = list(map(norm, L2_raw))
-L3 = list(map(norm, L3_raw))
-L4 = list(map(norm, L4_raw))
-
-# 根据新的 labels 对数据进行线性插值
-L1_interp = np.interp(labels, original_x, L1)
-L2_interp = np.interp(labels, original_x, L2)
-L3_interp = np.interp(labels, original_x, L3)
-L4_interp = np.interp(labels, original_x, L4)
-
-series = [L1_interp, L2_interp, L3_interp, L4_interp]
-names  = ["bge-large-en-v1.5", "e5-large-v2", "multilingual-e5-large", "qwen3-embedding-0.6b"]
+names = []
+series = []
+for model_name in sorted(series_by_model.keys()):
+    steps, values = sorted_series(series_by_model[model_name])
+    values = list(map(norm, values))
+    if len(steps) == 1:
+        interp_values = [values[0]] * len(labels)
+    else:
+        interp_values = np.interp(labels, steps, values)
+    names.append(model_name)
+    series.append(interp_values)
 
 # ---------- Plot ----------
 fig, ax = plt.subplots(figsize=(12, 8))
@@ -83,6 +117,8 @@ ax.set_xlabel("Training Steps", fontsize=32)
 ax.legend(loc="upper right", ncol=2, framealpha=0.9, fontsize=20)
 
 fig.tight_layout()
-fig.savefig("eer.png", dpi=300, bbox_inches="tight")
-fig.savefig("eer.pdf", bbox_inches="tight")
-plt.show()
+output_dir = base_dir / "plots"
+output_dir.mkdir(parents=True, exist_ok=True)
+fig.savefig(output_dir / "eer.png", dpi=300, bbox_inches="tight")
+fig.savefig(output_dir / "eer.pdf", bbox_inches="tight")
+plt.close(fig)

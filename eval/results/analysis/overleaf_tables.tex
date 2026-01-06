@@ -90,27 +90,27 @@
 \midrule
 \multicolumn{12}{l}{\textit{LLMs (instruction-tuned)}} \\
 \midrule
-\texttt{deepseek-coder-6.7b-instruct} & \texttt{6.7B} & 0.305 & 0.662 & 0.410 & 0.535 & 0.581 & 0.525 & \underline{\textbf{0.941}} & 0.435 & 0.391 & 0.504 \\
-\texttt{deepseek-llm-7b-chat} & \texttt{7B} & 0.266 & 0.620 & 0.500 & 0.564 & 0.516 & 0.575 & \underline{\textbf{0.941}} & 0.402 & 0.323 & 0.488 \\
-\texttt{llama3-8b-instruct} & \texttt{8B} & 0.305 & \underline{0.761} & \underline{\textbf{0.566}} & 0.644 & 0.629 & 0.800 & 0.765 & 0.500 & \underline{\textbf{0.504}} & 0.504 \\
-\texttt{llama3.1-8b-instruct} & \texttt{8B} & 0.310 & 0.746 & 0.530 & \underline{\textbf{0.693}} & \underline{\textbf{0.645}} & \underline{\textbf{0.850}} & 0.647 & \underline{\textbf{0.511}} & 0.474 & 0.504 \\
-\texttt{qwen2.5-3b-instruct} & \texttt{3.1B} & \underline{\textbf{0.350}} & 0.648 & 0.464 & 0.594 & 0.629 & 0.600 & 0.765 & 0.478 & 0.459 & \underline{\textbf{0.543}} \\
-\texttt{qwen2.5-7b-instruct} & \texttt{7.6B} & 0.335 & 0.648 & 0.458 & 0.574 & 0.597 & 0.650 & 0.882 & 0.424 & 0.444 & \underline{\textbf{0.543}} \\
-\texttt{qwen3-4b-instruct} & \texttt{4B} & 0.340 & 0.662 & 0.434 & 0.564 & 0.581 & 0.700 & 0.765 & 0.457 & 0.421 & \underline{\textbf{0.543}} \\
+\texttt{deepseek-coder-6.7b-instruct} & \texttt{6.7B} & 0.305 & 0.662 & 0.410 & 0.535 & 0.581 & 0.525 & \textbf{0.941} & 0.435 & 0.391 & \underline{0.504} \\
+\texttt{deepseek-llm-7b-chat} & \texttt{7B} & 0.266 & 0.620 & 0.500 & 0.564 & 0.516 & 0.575 & \textbf{0.941} & 0.402 & 0.323 & 0.488 \\
+\texttt{llama3-8b-instruct} & \texttt{8B} & 0.305 & \textbf{0.761} & \textbf{0.566} & \underline{0.644} & \underline{0.629} & \underline{0.800} & 0.765 & \underline{0.500} & \textbf{0.504} & \underline{0.504} \\
+\texttt{llama3.1-8b-instruct} & \texttt{8B} & 0.310 & \underline{0.746} & \underline{0.530} & \textbf{0.693} & \textbf{0.645} & \textbf{0.850} & 0.647 & \textbf{0.511} & \underline{0.474} & \underline{0.504} \\
+\texttt{qwen2.5-3b-instruct} & \texttt{3.1B} & \textbf{0.350} & 0.648 & 0.464 & 0.594 & \underline{0.629} & 0.600 & 0.765 & 0.478 & 0.459 & \textbf{0.543} \\
+\texttt{qwen2.5-7b-instruct} & \texttt{7.6B} & 0.335 & 0.648 & 0.458 & 0.574 & 0.597 & 0.650 & \underline{0.882} & 0.424 & 0.444 & \textbf{0.543} \\
+\texttt{qwen3-4b-instruct} & \texttt{4B} & \underline{0.340} & 0.662 & 0.434 & 0.564 & 0.581 & 0.700 & 0.765 & 0.457 & 0.421 & \textbf{0.543} \\
 \midrule
 \multicolumn{12}{l}{\textit{LLMs (base)}} \\
 \midrule
-\texttt{deepseek-llm-7b-base} & \texttt{7B} & 0.266 & 0.648 & 0.524 & 0.634 & 0.613 & 0.675 & \underline{\textbf{0.941}} & 0.424 & 0.361 & 0.520 \\
-\texttt{llama3-8b} & \texttt{8B} & 0.335 & \underline{\textbf{0.775}} & \underline{0.560} & 0.663 & \underline{\textbf{0.645}} & \underline{\textbf{0.850}} & 0.824 & \underline{0.500} & \underline{0.496} & 0.512 \\
-\texttt{llama3.1-8b} & \texttt{8B} & 0.335 & \underline{\textbf{0.775}} & 0.554 & \underline{0.673} & \underline{\textbf{0.645}} & 0.800 & 0.765 & 0.478 & 0.489 & 0.496 \\
-\texttt{qwen2.5-3b} & \texttt{3.1B} & \underline{0.345} & 0.634 & 0.458 & 0.594 & 0.629 & 0.600 & 0.882 & 0.489 & 0.444 & \underline{\textbf{0.543}} \\
-\texttt{qwen3-4b} & \texttt{4B} & 0.340 & 0.676 & 0.464 & 0.574 & 0.565 & 0.625 & 0.706 & 0.446 & 0.406 & 0.535 \\
+\texttt{deepseek-llm-7b-base} & \texttt{7B} & 0.266 & 0.648 & 0.524 & 0.634 & 0.613 & 0.675 & \textbf{0.941} & 0.424 & 0.361 & 0.520 \\
+\texttt{llama3-8b} & \texttt{8B} & 0.335 & \textbf{0.775} & \textbf{0.560} & \underline{0.663} & \textbf{0.645} & \textbf{0.850} & 0.824 & \textbf{0.500} & \textbf{0.496} & 0.512 \\
+\texttt{llama3.1-8b} & \texttt{8B} & 0.335 & \textbf{0.775} & \underline{0.554} & \textbf{0.673} & \textbf{0.645} & \underline{0.800} & 0.765 & 0.478 & \underline{0.489} & 0.496 \\
+\texttt{qwen2.5-3b} & \texttt{3.1B} & \textbf{0.345} & 0.634 & 0.458 & 0.594 & \underline{0.629} & 0.600 & \underline{0.882} & \underline{0.489} & 0.444 & \textbf{0.543} \\
+\texttt{qwen3-4b} & \texttt{4B} & \underline{0.340} & \underline{0.676} & 0.464 & 0.574 & 0.565 & 0.625 & 0.706 & 0.446 & 0.406 & \underline{0.535} \\
 \midrule
 \multicolumn{12}{l}{\textit{Embedding models (instruction-tuned)}} \\
 \midrule
-\texttt{e5-mistral-7b-instruct} & \texttt{7.1B} & 0.276 & \underline{0.648} & 0.476 & \underline{0.604} & 0.532 & 0.625 & \underline{0.882} & \underline{0.457} & 0.451 & 0.441 \\
-\texttt{gte-qwen2-7b-instruct} & \texttt{7.6B} & \underline{0.296} & 0.634 & \underline{0.488} & 0.564 & \underline{\textbf{0.645}} & \underline{0.675} & 0.765 & \underline{0.457} & \underline{0.474} & \underline{0.535} \\
-\texttt{sfr-embedding-mistral} & \texttt{7.1B} & 0.271 & 0.634 & \underline{0.488} & \underline{0.604} & 0.548 & 0.650 & 0.706 & \underline{0.457} & 0.444 & 0.465 \\
+\texttt{e5-mistral-7b-instruct} & \texttt{7.1B} & \underline{0.276} & \textbf{0.648} & \underline{0.476} & \textbf{0.604} & 0.532 & 0.625 & \textbf{0.882} & \textbf{0.457} & \underline{0.451} & 0.441 \\
+\texttt{gte-qwen2-7b-instruct} & \texttt{7.6B} & \textbf{0.296} & \underline{0.634} & \textbf{0.488} & \underline{0.564} & \textbf{0.645} & \textbf{0.675} & \underline{0.765} & \textbf{0.457} & \textbf{0.474} & \textbf{0.535} \\
+\texttt{sfr-embedding-mistral} & \texttt{7.1B} & 0.271 & \underline{0.634} & \textbf{0.488} & \textbf{0.604} & \underline{0.548} & \underline{0.650} & 0.706 & \textbf{0.457} & 0.444 & \underline{0.465} \\
 \midrule
 \multicolumn{12}{l}{\textit{Embedding models}} \\
 \midrule
@@ -119,18 +119,18 @@
 \texttt{all-mpnet-base-v2} & \texttt{109M} & 0.192 & 0.507 & 0.470 & 0.406 & 0.323 & 0.525 & 0.353 & 0.283 & 0.248 & 0.394 \\
 \texttt{all-roberta-large-v1} & \texttt{355M} & 0.266 & 0.634 & 0.428 & 0.465 & 0.419 & 0.575 & 0.647 & 0.283 & 0.263 & 0.370 \\
 \texttt{allenai-specter} & \texttt{110M} & 0.167 & 0.577 & 0.343 & 0.455 & 0.403 & 0.325 & 0.294 & 0.326 & 0.241 & 0.260 \\
-\texttt{bert-base-uncased} & \texttt{110M} & 0.212 & 0.563 & 0.458 & 0.495 & 0.403 & 0.575 & 0.588 & 0.424 & 0.316 & 0.402 \\
+\texttt{bert-base-uncased} & \texttt{110M} & 0.212 & 0.563 & 0.458 & 0.495 & 0.403 & 0.575 & 0.588 & \underline{0.424} & 0.316 & 0.402 \\
 \texttt{bge-base-en-v1.5} & \texttt{109M} & 0.197 & 0.592 & 0.386 & 0.455 & 0.371 & 0.625 & 0.588 & 0.348 & 0.286 & 0.346 \\
-\texttt{bge-base-zh-v1.5} & \texttt{102M} & 0.212 & 0.535 & 0.349 & 0.406 & 0.323 & 0.650 & \underline{0.824} & 0.424 & 0.278 & 0.449 \\
+\texttt{bge-base-zh-v1.5} & \texttt{102M} & 0.212 & 0.535 & 0.349 & 0.406 & 0.323 & \underline{0.650} & \textbf{0.824} & \underline{0.424} & 0.278 & 0.449 \\
 \texttt{bge-large-en-v1.5} & \texttt{335M} & 0.153 & 0.620 & 0.428 & 0.475 & 0.452 & 0.525 & 0.353 & 0.326 & 0.271 & 0.362 \\
-\texttt{bge-large-zh-v1.5} & \texttt{326M} & 0.241 & 0.521 & 0.325 & 0.406 & 0.323 & 0.625 & 0.529 & 0.424 & 0.323 & 0.465 \\
+\texttt{bge-large-zh-v1.5} & \texttt{326M} & 0.241 & 0.521 & 0.325 & 0.406 & 0.323 & 0.625 & 0.529 & \underline{0.424} & 0.323 & 0.465 \\
 \texttt{bge-m3} & \texttt{568M} & 0.232 & 0.437 & 0.319 & 0.505 & 0.339 & 0.400 & 0.176 & 0.261 & 0.263 & 0.386 \\
 \texttt{bge-small-en-v1.5} & \texttt{33M} & 0.148 & 0.493 & 0.446 & 0.426 & 0.387 & 0.500 & 0.294 & 0.304 & 0.226 & 0.346 \\
 \texttt{distiluse-base-multilingual-cased-v2} & \texttt{135M} & 0.212 & 0.479 & 0.349 & 0.426 & 0.274 & 0.500 & 0.353 & 0.380 & 0.226 & 0.370 \\
-\texttt{e5-base-v2} & \texttt{109M} & 0.256 & 0.563 & 0.476 & 0.545 & 0.468 & \underline{0.750} & 0.647 & 0.348 & 0.301 & 0.386 \\
+\texttt{e5-base-v2} & \texttt{109M} & 0.256 & 0.563 & 0.476 & 0.545 & 0.468 & \textbf{0.750} & 0.647 & 0.348 & 0.301 & 0.386 \\
 \texttt{e5-large-v2} & \texttt{335M} & 0.227 & 0.521 & 0.464 & 0.475 & 0.516 & 0.600 & 0.529 & 0.391 & 0.301 & 0.386 \\
-\texttt{e5-small-v2} & \texttt{33M} & 0.212 & 0.465 & 0.428 & 0.396 & 0.371 & 0.650 & 0.647 & 0.326 & 0.308 & 0.346 \\
-\texttt{facebook-contriever} & \texttt{109M} & 0.227 & 0.648 & \underline{0.536} & 0.614 & 0.597 & 0.625 & 0.647 & 0.413 & 0.338 & 0.386 \\
+\texttt{e5-small-v2} & \texttt{33M} & 0.212 & 0.465 & 0.428 & 0.396 & 0.371 & \underline{0.650} & 0.647 & 0.326 & 0.308 & 0.346 \\
+\texttt{facebook-contriever} & \texttt{109M} & 0.227 & \underline{0.648} & \textbf{0.536} & \underline{0.614} & \underline{0.597} & 0.625 & 0.647 & 0.413 & 0.338 & 0.386 \\
 \texttt{facebook-contriever-msmarco} & \texttt{109M} & 0.202 & 0.521 & 0.446 & 0.446 & 0.355 & 0.600 & 0.588 & 0.391 & 0.286 & 0.354 \\
 \texttt{gte-base} & \texttt{n/a} & 0.143 & 0.592 & 0.446 & 0.485 & 0.419 & 0.500 & 0.588 & 0.272 & 0.278 & 0.346 \\
 \texttt{gte-large} & \texttt{335M} & 0.143 & 0.620 & 0.416 & 0.535 & 0.484 & 0.500 & 0.353 & 0.304 & 0.271 & 0.339 \\
@@ -138,27 +138,26 @@
 \texttt{jina-embeddings-v2-base-en} & \texttt{137M} & 0.128 & 0.099 & 0.060 & 0.050 & 0.048 & 0.275 & 0.176 & 0.152 & 0.053 & 0.205 \\
 \texttt{jina-embeddings-v2-small-en} & \texttt{33M} & 0.163 & 0.423 & 0.392 & 0.327 & 0.274 & 0.500 & 0.588 & 0.380 & 0.203 & 0.354 \\
 \texttt{msmarco-distilbert-base-v4} & \texttt{66M} & 0.192 & 0.479 & 0.386 & 0.297 & 0.258 & 0.600 & 0.529 & 0.402 & 0.263 & 0.315 \\
-\texttt{multilingual-e5-base} & \texttt{278M} & 0.310 & 0.620 & 0.506 & 0.545 & 0.532 & 0.625 & 0.412 & 0.391 & 0.383 & 0.512 \\
-\texttt{multilingual-e5-large} & \texttt{560M} & \underline{0.335} & \underline{0.676} & 0.488 & \underline{0.644} & \underline{0.629} & 0.625 & 0.647 & 0.370 & \underline{0.459} & 0.465 \\
+\texttt{multilingual-e5-base} & \texttt{278M} & 0.310 & 0.620 & \underline{0.506} & 0.545 & 0.532 & 0.625 & 0.412 & 0.391 & 0.383 & \underline{0.512} \\
+\texttt{multilingual-e5-large} & \texttt{560M} & \textbf{0.335} & \textbf{0.676} & 0.488 & \textbf{0.644} & \textbf{0.629} & 0.625 & 0.647 & 0.370 & \textbf{0.459} & 0.465 \\
 \texttt{mxbai-embed-large-v1} & \texttt{335M} & 0.138 & 0.592 & 0.416 & 0.475 & 0.452 & 0.575 & 0.412 & 0.326 & 0.278 & 0.354 \\
 \texttt{nomic-embed-text-v1} & \texttt{n/a} & 0.207 & 0.549 & 0.440 & 0.485 & 0.500 & 0.575 & 0.471 & 0.293 & 0.271 & 0.362 \\
 \texttt{nomic-embed-text-v1.5} & \texttt{137M} & 0.192 & 0.549 & 0.446 & 0.525 & 0.484 & 0.550 & 0.529 & 0.272 & 0.278 & 0.362 \\
 \texttt{paraphrase-mpnet-base-v2} & \texttt{n/a} & 0.227 & 0.493 & 0.428 & 0.376 & 0.306 & 0.525 & 0.471 & 0.348 & 0.263 & 0.339 \\
 \texttt{paraphrase-multilingual-mpnet-base-v2} & \texttt{278M} & 0.192 & 0.366 & 0.355 & 0.356 & 0.177 & 0.425 & 0.176 & 0.261 & 0.241 & 0.315 \\
-\texttt{qwen3-embedding-0.6b} & \texttt{596M} & 0.276 & 0.563 & 0.428 & 0.525 & 0.500 & 0.550 & 0.706 & 0.380 & 0.361 & 0.457 \\
-\texttt{qwen3-embedding-4b} & \texttt{4B} & 0.251 & 0.606 & 0.464 & 0.564 & 0.597 & 0.600 & 0.647 & 0.391 & 0.331 & 0.496 \\
-\texttt{qwen3-embedding-8b} & \texttt{7.6B} & 0.323 & 0.600 & 0.404 & 0.545 & 0.581 & 0.600 & 0.706 & \underline{0.467} & 0.429 & \underline{\textbf{0.543}} \\
+\texttt{qwen3-embedding-0.6b} & \texttt{596M} & 0.276 & 0.563 & 0.428 & 0.525 & 0.500 & 0.550 & \underline{0.706} & 0.380 & 0.361 & 0.457 \\
+\texttt{qwen3-embedding-4b} & \texttt{4B} & 0.251 & 0.606 & 0.464 & 0.564 & \underline{0.597} & 0.600 & 0.647 & 0.391 & 0.331 & 0.496 \\
+\texttt{qwen3-embedding-8b} & \texttt{7.6B} & \underline{0.323} & 0.600 & 0.404 & 0.545 & 0.581 & 0.600 & \underline{0.706} & \textbf{0.467} & \underline{0.429} & \textbf{0.543} \\
 \texttt{snowflake-arctic-embed-l-v2} & \texttt{568M} & 0.232 & 0.423 & 0.373 & 0.505 & 0.290 & 0.550 & 0.059 & 0.348 & 0.316 & 0.425 \\
 \midrule
 \multicolumn{12}{l}{\textit{Lexical baseline}} \\
 \midrule
-\texttt{tfidf} & \texttt{n/a} & \underline{0.291} & \underline{0.310} & \underline{0.313} & \underline{0.267} & \underline{0.419} & \underline{0.575} & \underline{0.529} & \underline{0.380} & \underline{0.293} & \underline{0.299} \\
+\texttt{tfidf} & \texttt{n/a} & \textbf{0.291} & \textbf{0.310} & \textbf{0.313} & \textbf{0.267} & \textbf{0.419} & \textbf{0.575} & \textbf{0.529} & \textbf{0.380} & \textbf{0.293} & \textbf{0.299} \\
 \bottomrule
 \end{tabular}
 }
 \caption{\textbf{Language-wise Success@5 on AuthBench (full results).} Authorship representation is evaluated as retrieval with Success@5 (higher is better). Within each category block, best values are underlined (max for Success@5). Across all models, best values are bolded. \textbf{Size} denotes parameter count when publicly available; proprietary hosted models may not disclose sizes (marked \texttt{n/a}).}
-\label{tab:lang-s5-full}
-\end{table*}
+\label{tab:lang-s5-full}\end{table*}
 
 % (2/6) Language-wise EER@5 (FULL)
 \begin{table*}[h!]
